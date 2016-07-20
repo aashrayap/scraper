@@ -2,6 +2,7 @@ require 'mechanize'
 require 'pry'
 
 Job=Struct.new(:title,:company,:link)
+jobarray=[]
 
 scraper= Mechanize.new
 scraper.history_added = Proc.new { sleep 0.5 }
@@ -21,6 +22,7 @@ page.links_with(:href => /detail/).each do |link|
   holder =description_page.link_with(:href => /company/) 
   current_job.company=holder.text
   current_job.link=link
+  jobarray<<current_job
 
 end
 
