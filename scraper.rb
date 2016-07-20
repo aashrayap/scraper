@@ -1,4 +1,7 @@
 require 'mechanize'
+require 'pry'
+
+Job=Struct.new(:title,:company,:link,:date,:company_id,:job_id)
 
 scraper= Mechanize.new
 scraper.history_added = Proc.new { sleep 0.5 }
@@ -9,6 +12,17 @@ result.q='engineer internship'
 
 page = scraper.submit(result)
 
-pp page
+page.links_with(:href => /detail/).each do |link|
+
+  current_job=Job.new
+  current_job.title=link.text.strip
+
+  description_page=link.click
+  holder =description_page.link_with(:href => /company/) 
+  current_job.company=holder.text
+  current_job.link=link
+
+end
+
 
 
