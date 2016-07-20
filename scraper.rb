@@ -1,7 +1,7 @@
 require 'mechanize'
 require 'pry'
 
-Job=Struct.new(:title,:company,:link,:date,:company_id,:job_id)
+Job=Struct.new(:title,:company,:link)
 
 scraper= Mechanize.new
 scraper.history_added = Proc.new { sleep 0.5 }
