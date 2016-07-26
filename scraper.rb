@@ -1,11 +1,12 @@
 require 'mechanize'
 require 'pry'
+require 'csv'
 
 Job=Struct.new(:title,:company,:link)
 jobarray=[]
 
 scraper= Mechanize.new
-scraper.history_added = Proc.new { sleep 0.5 }
+# scraper.history_added = Proc.new { sleep 0.5 }
 
 page=scraper.get("http://www.dice.com/")
 result=page.form_with(:id=>'search-form')
@@ -25,6 +26,12 @@ page.links_with(:href => /detail/).each do |link|
   jobarray<<current_job
 
 end
+
+CSV.open('csv_file.csv', 'a') do |csv|
+    # each one of these comes out in its own row.
+    csv << [jobarray]
+end
+
 
 
 
